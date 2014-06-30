@@ -1,0 +1,29 @@
+public class TESTArrayClassMain
+{  
+   public static void main(String[] args)
+   {
+      TESTArrayClass array1 = new TESTArrayClass(20);    //Creates new array
+      
+      array1.fillArray();
+      System.out.print("Unordered Array:\n" + array1.curElems());
+      array1.delElem();
+      System.out.println("\nDelete last added element:\n" + array1.curElems());
+      
+      //Add method not adding new element
+      System.out.println("\nAdded: " + array1.addElem(45));
+      System.out.println("\nAdd 45 to array:\n" + array1.curElems());
+      array1.selectionSort();
+      System.out.println("\nOrdered Array:\n" + array1.curElems());
+      
+      System.out.println("\nLargest Number: " + array1.getLargest());
+      System.out.println("\nArray With Largest Number Removed:\n" + array1.curElems());
+      
+      System.out.println("\nDeleting duplicates... ");
+      array1.removeDups();
+      array1.selectionSort();
+      System.out.println("\nArray with no duplicates:\n" + array1.curElems());
+      
+   }
+   
+   
+}
