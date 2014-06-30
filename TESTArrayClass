@@ -1,0 +1,228 @@
+import java.util.Random;
+
+
+//PART ONE
+public class TESTArrayClass
+{
+   private static int DEFAULT_SIZE = 100;    //Defines the size of array
+   private int arraySize;                    //Size of array
+   private int count;                        //Holds # of elements in array
+   private int[] array;                      //Creates array
+   
+   
+   //Constructor that creates default size for the array.	
+   public TESTArrayClass()
+   {
+      arraySize = DEFAULT_SIZE;
+      array = new int[arraySize];
+   }
+   
+   //Default constructor that creates an array of n elements.
+   public TESTArrayClass(int n)
+   {
+      arraySize = n;
+      array = new int[arraySize];
+   }
+   
+   //Fills array with random integers
+   public void fillArray()
+   {  
+      
+      Random random = new Random();                           
+      int maxInt = 25;                //The max integer that random can create
+      
+      //random.nextInt(maxInt);   
+         
+      //Fills array
+      for (int i = 0; i < arraySize; i++)
+      {
+         array[i] = random.nextInt(maxInt);
+         addElem(array[i]);
+         curElems();
+      
+         int index = count; //
+         
+         while (index != 0 && array[index-1] > arraySize) //Finds empty place for value
+         {
+            array[index] = array[index-1];   
+            index++;                                      //Increment size
+            array[index] = arraySize; 
+                       
+         }//End while
+       }  
+   }//End fillArray
+   
+   //Adds the integer value to the array in the next available location, returns false if this is not possible.
+   public boolean addElem(int	value)
+   {  
+      if(howMany(count) == arraySize)
+      {
+         //int newSize = 2*arraySize;
+         int[] newArray;                        //Creates new array
+         
+         newArray = new int [2*arraySize];      //Doubles new array with new size
+         
+         for(int i = 0; i < arraySize; i++)           //Copies elements from old array
+         {                                            //onto the new array
+            newArray[i] = array[i];
+         }  
+         
+        array = newArray;
+        
+        
+        return true;
+        
+     }else return false;
+     
+   }//End addElement
+   
+   
+   //Deletes the last added element, return false if array is empty.
+   public boolean delElem()
+   {  
+      if(howMany(count) > 0)
+      {
+         arraySize--;
+         return true;
+      }
+      else return false;
+   
+   }//End delElement
+   
+   //Returns the number	of	elements	in	the array.
+   private int howMany(int value)
+   {  
+      count = arraySize;    
+      
+      if (count == 0)       //Checks to see if array is empty
+      {                     
+         return -1;
+      }
+      else return count;
+      
+   }//End howMany
+   
+   //Returns a string listing the current elements, ten	per line.
+   public String curElems()
+   {
+      String curElements = "";              //Sets string
+      int wordCount = 0;                    //Sets # of words 
+      
+      //Goes through array
+      for(int i = 0; i < arraySize; i++)
+      {  
+         wordCount++;                       //Increases wordCount
+         curElements += array[i] + ", ";    //Adds array to curElements String
+         
+         if(wordCount == 10)                //If wordCount = 10
+         {                                  
+            curElements += "\n";            //Go to next line 
+            wordCount = 0;                  //Reset wordCount to zero
+            
+         }//End if
+         
+      }//End for
+
+      return curElements;
+  }//End curElems
+  
+  
+  
+  //PART TWO
+  
+  //Sorts array from smallest to largest
+  //your selection sort should be using the getLargest() function 
+  //to write to a new array, then point the old name to the new array.
+  public void selectionSort()
+  {
+    int min;
+    for (int i = 0; i < arraySize; i++) 
+    {
+        // Assume first element is min
+        min = i;
+        for (int j = i + 1; j < arraySize; j++) 
+        {
+            if (array[j] < array[min]) 
+            {
+                min = j;
+            }
+        }
+        if (min != i) 
+        {
+            final int temp = array[i];
+            array[i] = array[min];
+            array[min] = temp;
+        }
+    }
+  }
+    
+  //Returns the largest element and removes it from the array.
+  //Assume that the array may	contain duplicates and any	valid	integer value
+  public int getLargest()
+  {
+      int element = 0;                          //Sets element to zero
+      
+      for (int i = 0; i < arraySize; i ++)      //Go through array
+      {
+         if (array[i] > array[element])         //Find largest element array
+         {
+            element = i;                        //Set element equal to i if i is larger
+         }
+      }
+      int largestVal = array[element];          //Holds largest int value
+      array[element] = array[arraySize - 1];    //Moves last int down
+      delElem();                                //Removes largest value
+     
+      return largestVal;
+      
+  }//End getLargest
+  
+  public void removeDups()
+  {   /*
+      boolean start_move = false;
+      int hole = 0;
+
+      for(int i = 0; i < arraySize; i++) 
+      {
+         for(int j = i + 1; j < arraySize; j++)
+         {
+            if(array[i] == array[j])
+            {
+               if(!start_move)
+               {
+                  start_move = true;
+                  hole = j;
+               }
+            }
+            else if(start_move)
+            {
+               array[arraySize] = array[j];
+            }  
+         }  
+   
+         for(; hole< arraySize; hole++)
+         {
+            array[hole] = 0;
+         }
+   }      */
+  
+      for (int i = 0; i < arraySize; i++) 
+      {
+         for(int j = i + 1; j < arraySize; j++)
+         {
+            if (array[i] == array[j]) 
+            {
+                unsortDelete(j);
+                j--;
+                
+            }
+         }
+      }
+  }
+  
+  private void unsortDelete(int position)
+  {
+      array[position] = array[arraySize - 1];
+      arraySize--;
+  }
+}
